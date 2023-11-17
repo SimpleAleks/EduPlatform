@@ -10,15 +10,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  def create
-    parameters = params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
-    user = User.new(parameters)
-    if user.save
-      redirect_to root_path
-    else
-      render :new
-    end
-  end
+  # def create
+  #   parameters = params.require(:user).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+  #   user = User.new(parameters)
+  #   if user.save
+  #     redirect_to root_path
+  #   else
+  #     render :new
+  #   end
+  # end
 
   # GET /resource/edit
   # def edit

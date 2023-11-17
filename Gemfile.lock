@@ -95,6 +95,8 @@ GEM
       warden (~> 1.2.3)
     drb (2.2.0)
       ruby2_keywords
+    email_validator (2.2.4)
+      activemodel
     erubi (1.12.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
@@ -231,6 +233,7 @@ PLATFORMS
 DEPENDENCIES
   debug
   devise (~> 4.9)
+  email_validator
   importmap-rails
   jbuilder
   pg (~> 1.1)
