@@ -1,0 +1,35 @@
+<h1>My <%= @user_type_name %> profile</h1>
+
+<% if @user.user_type == 1 %>
+    <%= link_to 'Show teachers', teachers_path %>
+<% end %>
+
+<%= render @user %>
+
+<div>
+  <% if @user.user_type == 1 %>
+    <%= render @user.parent %>
+  <% elsif @user.user_type == 2 %>
+    <%= render @user.teacher %>
+  <% end %>
+</div>
+
+<% if @user.user_type == 1 %>
+  <h2>Teachers:</h2>
+<% elsif @user.user_type == 2 %>
+  <h2>Parents:</h2>
+<% end %>
+
+<% if @user.user_type == 1 %>
+  <% @user.parent.teachers.each do |t|%>
+    <%= render t.user %>
+    <%= render t %>
+    <%= link_to 'Show this teacher', t %>
+  <% end %>
+<% elsif @user.user_type == 2 %>
+  <% @user.teacher.parents.each do |p|%>
+    <%= render p.user %>
+    <%= render p %>
+    <%= link_to 'Show this parent', p %>
+  <% end %>
+<% end %>
