@@ -1,0 +1,15 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @teacher %>
+
+<div>
+  <% if @user.user_type == 1 %>
+    <% if @user.parent.teachers.where(id: @teacher.id).blank? %>
+      <%= link_to 'Make an appointment', parents_teachers_link_path, id: @teacher.id %> |
+    <% else %>
+      <%= link_to 'Remove an appointment', parents_teachers_destroy_link_path, id: @teacher.id %> |
+    <% end %>
+  <% end %>
+  <%= link_to "Edit", edit_teacher_path(@teacher) %> |
+  <%= link_to "Back to teachers", teachers_path %>
+</div>
