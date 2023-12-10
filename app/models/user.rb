@@ -8,4 +8,8 @@ class User < ApplicationRecord
   validates :last_name, presence: true, length: { in: 1..100 }
   validates :email, presence: true, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :user_type, presence: true, acceptance: { accept: [1, 2] }
+
+  def admin?
+    role == 'admin'
+  end
 end

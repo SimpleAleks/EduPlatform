@@ -13,15 +13,35 @@ class ParentsController < ApplicationController
 
   # GET /parents/new
   def new
+    begin
+      authorize Parent
+    rescue Pundit::NotAuthorizedError
+      redirect_to profile_path, notice: 'Вы не можете этого сделать!'
+      return
+    end
+
     @parent = Parent.new
   end
 
   # GET /parents/1/edit
   def edit
+    begin
+      authorize Parent
+    rescue Pundit::NotAuthorizedError
+      redirect_to profile_path, notice: 'Вы не можете изменять данные этого пользователя.'
+      return
+    end
   end
 
   # POST /parents or /parents.json
   def create
+    begin
+      authorize Parent
+    rescue Pundit::NotAuthorizedError
+      redirect_to profile_path, notice: 'Вы не можете изменять данные этого пользователя.'
+      return
+    end
+
     @parent = Parent.new(parent_params)
     @parent.user = current_user
 
@@ -38,6 +58,13 @@ class ParentsController < ApplicationController
 
   # PATCH/PUT /parents/1 or /parents/1.json
   def update
+    begin
+      authorize @parent
+    rescue Pundit::NotAuthorizedError
+      redirect_to profile_path, notice: 'Вы не можете изменять данные этого пользователя.'
+      return
+    end
+
     respond_to do |format|
       if @parent.update(parent_params)
         format.html { redirect_to parent_url(@parent), notice: "Parent was successfully updated." }
@@ -51,6 +78,13 @@ class ParentsController < ApplicationController
 
   # DELETE /parents/1 or /parents/1.json
   def destroy
+    begin
+      authorize Parent
+    rescue Pundit::NotAuthorizedError
+      redirect_to profile_path, notice: 'Вы не можете изменять данные этого пользователя.'
+      return
+    end
+
     @parent.destroy!
 
     respond_to do |format|

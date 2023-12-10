@@ -1,5 +1,5 @@
 class TeachersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: %i[ new create edit update destroy ]
   before_action :set_teacher, only: %i[ show edit update destroy ]
 
   # GET /teachers or /teachers.json
@@ -14,15 +14,34 @@ class TeachersController < ApplicationController
 
   # GET /teachers/new
   def new
+    begin
+      authorize Teacher
+    rescue Pundit::NotAuthorizedError
+      redirect_to profile_path, notice: 'Вы не можете этого сделать!'
+      return
+    end
+
     @teacher = Teacher.new
   end
 
   # GET /teachers/1/edit
   def edit
+    begin
+      authorize @teacher
+    rescue Pundit::NotAuthorizedError
+      redirect_to profile_path, notice: 'Вы не можете изменять данные этого пользователя.'
+      return
+    end
   end
 
   # POST /teachers or /teachers.json
   def create
+    begin
+      authorize Teacher
+    rescue Pundit::NotAuthorizedError
+      redirect_to profile_path, notice: 'Вы не можете этого сделать!'
+      return
+    end
     @teacher = Teacher.new(teacher_params)
     @teacher.user = current_user
 
@@ -39,6 +58,12 @@ class TeachersController < ApplicationController
 
   # PATCH/PUT /teachers/1 or /teachers/1.json
   def update
+    begin
+      authorize @teacher
+    rescue Pundit::NotAuthorizedError
+      redirect_to profile_path, notice: 'Вы не можете изменять данные этого пользователя.'
+      return
+    end
     respond_to do |format|
       if @teacher.update(teacher_params)
         format.html { redirect_to teacher_url(@teacher), notice: "Teacher was successfully updated." }
@@ -52,6 +77,12 @@ class TeachersController < ApplicationController
 
   # DELETE /teachers/1 or /teachers/1.json
   def destroy
+    begin
+      authorize @teacher
+    rescue Pundit::NotAuthorizedError
+      redirect_to profile_path, notice: 'Вы не можете этого сделать!'
+      return
+    end
     @teacher.destroy!
 
     respond_to do |format|
